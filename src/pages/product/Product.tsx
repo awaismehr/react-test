@@ -34,8 +34,6 @@ const ProductDetailsPage = () => {
     setProduct((prev) => ({ ...prev, ...updated }));
   };
 
-  console.log("Product data:", product);
-
   return (
     <div className="product">
       <div className="single">
@@ -47,11 +45,13 @@ const ProductDetailsPage = () => {
               <button onClick={() => setOpenEdit(true)}>Update</button>
             </div>
             <div className="details">
-              {product.info &&
-                Object.entries(product.info).map(([key, value]) => (
-                  <div className="item" key={key}>
-                    <span className="itemTitle">{key}</span>
-                    <span className="itemValue">{value}</span>
+              {/* Show only the basic product properties, matching the form */}
+              {columns
+                .filter((item) => item.field !== "id" && item.field !== "img" && item.field !== "createdAt")
+                .map((column) => (
+                  <div className="item" key={column.field}>
+                    <span className="itemTitle">{column.headerName}</span>
+                    <span className="itemValue">{(product as any)[column.field]}</span>
                   </div>
                 ))}
             </div>
