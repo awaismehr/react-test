@@ -1,4 +1,5 @@
 import { FC } from "react";
+
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,7 +13,12 @@ interface ConfirmDialogProps {
   onConfirm: () => void;
 }
 
-const ConfirmDialog: FC<ConfirmDialogProps> = ({ open, onCancel, onConfirm }) => (
+/**
+ * Dialog component for confirming deletion.
+ * @param param0
+ * @returns
+ */
+const ConfirmationDialog: FC<ConfirmDialogProps> = ({ open, onCancel, onConfirm }) => (
   <Dialog open={open} onClose={onCancel} aria-labelledby="confirm-dialog-title" aria-describedby="confirm-dialog-description">
     <DialogTitle id="confirm-dialog-title">Delete Product</DialogTitle>
     <DialogContent>
@@ -29,4 +35,4 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({ open, onCancel, onConfirm }) =>
   </Dialog>
 );
 
-export default ConfirmDialog;
+export default ConfirmationDialog;

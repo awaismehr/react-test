@@ -1,7 +1,17 @@
+import { FC, useState } from "react";
 import { Link } from "react-router-dom";
-import "./dataTable.scss";
 import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+
+import ConfirmationDialog from "../common/ConfirmationDialog";
+import "./dataTable.scss";
+
+interface DataTableProps {
+  columns: GridColDef[];
+  rows: object[];
+  slug: string;
+  onDelete: (id: number) => void;
+}
 
 const darkTheme = createTheme({
   palette: {
@@ -9,36 +19,29 @@ const darkTheme = createTheme({
   },
 });
 
-import { useState } from "react";
-import ConfirmDialog from "../ConfirmDialog";
-
-type Props = {
-  columns: GridColDef[];
-  rows: object[];
-  slug: string;
-  onDelete: (id: number) => void;
-};
-
-const DataTable = (props: Props) => {
+/**
+ * dataTable component for displaying and managing data with actions.
+ * @param props
+ * @returns
+ */
+const DataTable: FC<DataTableProps> = (props) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const handleDeleteClick = (id: number) => {
-    setDeleteId(id);
+    setSelectedId(id);
     setConfirmOpen(true);
   };
 
-  const handleConfirm = () => {
-    if (deleteId !== null) {
-      props.onDelete(deleteId);
-    }
+  const onConfirm = () => {
+    if (selectedId) props.onDelete(selectedId);
     setConfirmOpen(false);
-    setDeleteId(null);
+    setSelectedId(null);
   };
 
-  const handleCancel = () => {
+  const onCancel = () => {
     setConfirmOpen(false);
-    setDeleteId(null);
+    setSelectedId(null);
   };
 
   const actionColumn: GridColDef = {
@@ -89,7 +92,7 @@ const DataTable = (props: Props) => {
           disableDensitySelector
           disableColumnSelector
         />
-        <ConfirmDialog open={confirmOpen} onCancel={handleCancel} onConfirm={handleConfirm} />
+        <ConfirmationDialog open={confirmOpen} onCancel={onCancel} onConfirm={onConfirm} />
       </ThemeProvider>
     </div>
   );

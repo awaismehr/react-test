@@ -778,6 +778,11 @@ export const singleProduct = {
   id: 1,
   title: "Playstation 5 Digital Edition",
   img: "https://store.sony.com.au/on/demandware.static/-/Sites-sony-master-catalog/default/dw1b537bbb/images/PLAYSTATION5W/PLAYSTATION5W.png",
+  color: "Red",
+  price: "$10",
+  producer: "BrandX",
+  createdAt: "2025-08-12",
+  inStock: true,
   info: {
     productId: "Ps5SDF1156d",
     color: "white",

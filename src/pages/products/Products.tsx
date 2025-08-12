@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import "./products.scss";
-import { products as initialProducts } from "../../data";
-import DataTable from "../../components/dataTable/DataTable";
-import Add from "../../components/add/Add";
 
-const columns: GridColDef[] = [
+import DataTable from "../../components/dataTable/DataTable";
+import ProductAddDialog from "../../components/product/add/ProductAddDialog";
+import { products as initialProducts } from "../../data";
+
+import "./products.scss";
+import { Product } from "types/product";
+
+const columns: GridColDef<Product>[] = [
   { field: "id", headerName: "ID", width: 90 },
   {
     field: "img",
@@ -64,7 +67,7 @@ export const Products = () => {
         <button onClick={() => setOpen(true)}>Add New Product</button>
       </div>
       <DataTable slug="products" columns={columns} rows={rows} onDelete={(id) => setRows((prev) => prev.filter((row: any) => row.id !== id))} />
-      {open && <Add slug="product" columns={columns} setOpen={setOpen} />}
+      {open && <ProductAddDialog slug="product" columns={columns} setOpen={setOpen} />}
     </div>
   );
 };

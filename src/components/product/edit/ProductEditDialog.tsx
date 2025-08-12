@@ -1,24 +1,23 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import "../add/add.scss";
 
-interface EditProps {
+import { Product } from "types/product";
+import "../add/product-add-dialog.scss";
+
+interface ProductEditDialogProps {
   slug: string;
   columns: GridColDef[];
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  product: any;
-  onUpdate: (updatedProduct: any) => void;
+  product: Product;
+  onUpdate: (updatedProduct: Product) => void;
 }
 
-const Edit = ({ slug, columns, setOpen, product, onUpdate }: EditProps) => {
-  const [formData, setFormData] = useState({ ...product });
+const ProductEditDialog: FC<ProductEditDialogProps> = ({ slug, columns, setOpen, product, onUpdate }) => {
+  const [formData, setFormData] = useState<Product>(product);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,7 +40,7 @@ const Edit = ({ slug, columns, setOpen, product, onUpdate }: EditProps) => {
               return (
                 <div className="item" key={column.field}>
                   <label>{column.headerName}</label>
-                  <input type="text" name={column.field} value={formData[column.field] || ""} onChange={handleChange} />
+                  <input type="text" name={column.field} value={column.type === "boolean" ? undefined : (formData as any)[column.field] || ""} onChange={handleChange} />
                 </div>
               );
             })}
@@ -52,4 +51,4 @@ const Edit = ({ slug, columns, setOpen, product, onUpdate }: EditProps) => {
   );
 };
 
-export default Edit;
+export default ProductEditDialog;
